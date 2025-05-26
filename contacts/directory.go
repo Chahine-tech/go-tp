@@ -52,9 +52,6 @@ func (d *Directory) Save() error {
 		return nil
 	}
 
-	d.mutex.RLock()
-	defer d.mutex.RUnlock()
-
 	data, err := json.MarshalIndent(d.Contacts, "", "  ")
 	if err != nil {
 		return err
