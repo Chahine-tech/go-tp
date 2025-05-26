@@ -10,6 +10,7 @@ A simple command-line contact directory manager written in Go.
 - Edit existing contacts
 - Check if a contact exists
 - Data persistence using JSON files
+- Web interface to view contacts
 
 ## Building the Application
 
@@ -53,6 +54,21 @@ You can also change the name:
 ```bash
 ./go-tp -file "contacts.json" -list
 ```
+
+### Start Web Server
+Start the web server on default port (8080):
+```bash
+./go-tp -serve
+```
+
+Start the web server on a custom port:
+```bash
+./go-tp -serve -port 3000
+```
+
+Once the server is running, you can:
+- View contacts in your browser at `http://localhost:3000` (or your custom port)
+- Access the JSON API at `http://localhost:3000/api/contacts`
 
 ## Running Tests
 
