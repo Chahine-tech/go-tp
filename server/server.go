@@ -24,7 +24,7 @@ func NewServer(dataFile string) (*Server, error) {
 	}, nil
 }
 
-func (s *Server) handleIndex(w http.ResponseWriter, r *http.Request) {
+func (s *Server) HandleIndex(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
 		http.NotFound(w, r)
 		return
@@ -43,7 +43,7 @@ func (s *Server) handleIndex(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (s *Server) handleAPI(w http.ResponseWriter, r *http.Request) {
+func (s *Server) HandleAPI(w http.ResponseWriter, r *http.Request) {
 	path := strings.TrimPrefix(r.URL.Path, "/api/contacts")
 
 	switch {

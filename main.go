@@ -9,6 +9,7 @@ import (
 	"path/filepath"
 
 	"github.com/Chahine-tech/go-tp/contacts"
+	"github.com/Chahine-tech/go-tp/server"
 )
 
 func main() {
@@ -57,14 +58,14 @@ func main() {
 }
 
 func startServer(dataFile string, port string) {
-	server, err := NewServer(dataFile)
+	srv, err := server.NewServer(dataFile)
 	if err != nil {
 		log.Fatalf("Error creating server: %v", err)
 	}
 
-	http.HandleFunc("/", server.handleIndex)
-	http.HandleFunc("/api/contacts", server.handleAPI)
-	http.HandleFunc("/api/contacts/", server.handleAPI)
+	http.HandleFunc("/", srv.HandleIndex)
+	http.HandleFunc("/api/contacts", srv.HandleAPI)
+	http.HandleFunc("/api/contacts/", srv.HandleAPI)
 
 	addr := ":" + port
 	fmt.Printf("Starting server on http://localhost%s\n", addr)
