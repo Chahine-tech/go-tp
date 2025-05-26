@@ -63,6 +63,7 @@ func startServer(dataFile string, port string) {
 	}
 
 	http.HandleFunc("/", server.handleIndex)
+	http.HandleFunc("/api/contacts", server.handleAPI)
 	http.HandleFunc("/api/contacts/", server.handleAPI)
 
 	addr := ":" + port
