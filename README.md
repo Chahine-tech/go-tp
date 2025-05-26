@@ -51,7 +51,7 @@ You can also change the name:
 
 ### Specify a different data file
 ```bash
-./go-tp -file "my-contacts.json" -list
+./go-tp -file "contacts.json" -list
 ```
 
 ## Running Tests
