@@ -10,7 +10,7 @@ A simple command-line contact directory manager written in Go.
 - Edit existing contacts
 - Check if a contact exists
 - Data persistence using JSON files
-- Web interface to view contacts
+- Web interface with full CRUD operations
 
 ## Building the Application
 
@@ -69,6 +69,11 @@ Start the web server on a custom port:
 Once the server is running, you can:
 - View contacts in your browser at `http://localhost:3000` (or your custom port)
 - Access the JSON API at `http://localhost:3000/api/contacts`
+- Use the web interface to:
+  - Add new contacts with the "Add New Contact" button
+  - Edit existing contacts with the "Edit" button
+  - Delete contacts with the "Delete" button
+  - View all contacts in a clean, modern interface
 
 ## Running Tests
 
