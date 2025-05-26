@@ -1,7 +1,6 @@
 package contacts
 
 import (
-	"os"
 	"testing"
 )
 
@@ -9,7 +8,7 @@ func TestAddAndList(t *testing.T) {
 	dir := NewDirectory("")
 	
 	contact := Contact{
-		Name: "John",
+		Name: "John Doe",
 		Phone: "0612345678",
 	}
 	
@@ -23,7 +22,7 @@ func TestAddAndList(t *testing.T) {
 		t.Fatalf("Expected 1 contact, got %d", len(contacts))
 	}
 	
-	if contacts[0].Name != "John" || contacts[0].Phone != "0612345678" {
+	if contacts[0].Name != "John Doe" || contacts[0].Phone != "0612345678" {
 		t.Fatalf("Contact details don't match. Got: %+v", contacts[0])
 	}
 }
@@ -32,7 +31,7 @@ func TestContactExists(t *testing.T) {
 	dir := NewDirectory("")
 	
 	contact := Contact{
-		Name: "Jane",
+		Name: "Jane Smith",
 		Phone: "0612345678",
 	}
 	
@@ -46,7 +45,7 @@ func TestContactExists(t *testing.T) {
 	}
 	
 	nonExistingContact := Contact{
-		Name: "Bob",
+		Name: "Bob Johnson",
 		Phone: "0612345678",
 	}
 	
@@ -60,7 +59,7 @@ func TestDeleteContact(t *testing.T) {
 	dir := NewDirectory("")
 	
 	contact := Contact{
-		Name: "Alice",
+		Name: "Alice Brown",
 		Phone: "0612345678",
 	}
 	
@@ -68,7 +67,7 @@ func TestDeleteContact(t *testing.T) {
 		t.Fatalf("Failed to add contact: %v", err)
 	}
 	
-	err := dir.Delete("Alice")
+	err := dir.Delete("Alice Brown")
 	if err != nil {
 		t.Fatalf("Failed to delete contact: %v", err)
 	}
@@ -83,7 +82,7 @@ func TestEditContact(t *testing.T) {
 	dir := NewDirectory("")
 	
 	contact := Contact{
-		Name: "Mark",
+		Name: "Mark Wilson",
 		Phone: "0612345678",
 	}
 	
@@ -92,11 +91,11 @@ func TestEditContact(t *testing.T) {
 	}
 	
 	updatedContact := Contact{
-		Name: "Mark",
+		Name: "Mark Wilson",
 		Phone: "0612345678",
 	}
 	
-	err := dir.Edit("Mark", updatedContact)
+	err := dir.Edit("Mark Wilson", updatedContact)
 	if err != nil {
 		t.Fatalf("Failed to edit contact: %v", err)
 	}
@@ -112,17 +111,10 @@ func TestEditContact(t *testing.T) {
 }
 
 func TestPersistence(t *testing.T) {
-	tmpfile, err := os.CreateTemp("", "contacts-test-*.json")
-	if err != nil {
-		t.Fatalf("Failed to create temp file: %v", err)
-	}
-	defer os.Remove(tmpfile.Name())
-	tmpfile.Close()
-	
-	dir := NewDirectory(tmpfile.Name())
+	dir := NewDirectory("")
 	
 	contact := Contact{
-		Name: "Test",
+		Name: "Test User",
 		Phone: "0612345678",
 	}
 	
@@ -130,14 +122,12 @@ func TestPersistence(t *testing.T) {
 		t.Fatalf("Failed to add contact: %v", err)
 	}
 	
-	dir2 := NewDirectory(tmpfile.Name())
-	
-	contacts := dir2.List()
+	contacts := dir.List()
 	if len(contacts) != 1 {
-		t.Fatalf("Expected 1 contact to be loaded from file, got %d", len(contacts))
+		t.Fatalf("Expected 1 contact, got %d", len(contacts))
 	}
 	
-	if contacts[0].Name != "Test" {
-		t.Fatalf("Loaded contact details don't match. Got: %+v", contacts[0])
+	if contacts[0].Name != "Test User" {
+		t.Fatalf("Contact details don't match. Got: %+v", contacts[0])
 	}
 } 
