@@ -3,6 +3,8 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
+	"net/http"
 	"os"
 	"path/filepath"
 
@@ -15,6 +17,7 @@ func main() {
 	deleteCmd := flag.Bool("delete", false, "Delete a contact")
 	editCmd := flag.Bool("edit", false, "Edit an existing contact")
 	existsCmd := flag.Bool("exists", false, "Check if a contact exists")
+	serveCmd := flag.Bool("serve", false, "Start web server")
 
 	name := flag.String("name", "", "Name")
 	phone := flag.String("phone", "", "Phone number")
@@ -23,6 +26,7 @@ func main() {
 	newPhone := flag.String("new-phone", "", "New phone number (for edit)")
 
 	dataFile := flag.String("file", "contacts.json", "Data file to store contacts")
+	port := flag.String("port", "8080", "Port for web server")
 
 	flag.Parse()
 
@@ -35,6 +39,8 @@ func main() {
 	dir := contacts.NewDirectory(absDataFile)
 
 	switch {
+	case *serveCmd:
+		startServer(absDataFile, *port)
 	case *listCmd:
 		listContacts(dir)
 	case *addCmd:
@@ -47,6 +53,22 @@ func main() {
 		checkExists(dir, *name)
 	default:
 		flag.Usage()
+	}
+}
+
+func startServer(dataFile string, port string) {
+	server, err := NewServer(dataFile)
+	if err != nil {
+		log.Fatalf("Error creating server: %v", err)
+	}
+
+	http.HandleFunc("/", server.handleIndex)
+	http.HandleFunc("/api/contacts", server.handleAPI)
+
+	addr := ":" + port
+	fmt.Printf("Starting server on http://localhost%s\n", addr)
+	if err := http.ListenAndServe(addr, nil); err != nil {
+		log.Fatalf("Error starting server: %v", err)
 	}
 }
 
@@ -75,7 +97,7 @@ func addContact(dir *contacts.Directory, name, phone string) {
 	}
 
 	contact := contacts.Contact{
-		Name: name,
+		Name:  name,
 		Phone: phone,
 	}
 
